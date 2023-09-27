@@ -1,0 +1,10 @@
+{
+  "appName" : "模板",
+  "feedback" : "反馈",
+  "inputFeedback": "请输入建议",
+  "thanksFeedback" : "谢谢您的反馈！",
+  "cancel": "取消",
+  "ok": "确定",
+  "success": "成功",
+  "fail": "失败"
+}

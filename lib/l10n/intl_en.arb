@@ -1,0 +1,10 @@
+{
+  "appName" : "Template",
+  "feedback" : "Feedback",
+  "inputFeedback": "Please input your feedback",
+  "thanksFeedback" : "Thank you for your feedback!",
+  "cancel": "cancel",
+  "ok": "ok",
+  "success": "Success",
+  "fail": "fail"
+}
