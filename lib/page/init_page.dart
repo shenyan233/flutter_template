@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_template/page/responsive.dart';
 import '../generated/l10n.dart';
 import '../model/database.dart';
@@ -44,7 +45,10 @@ class _InitPageState extends State<InitPage> {
   Widget build(BuildContext context) {
     initApp(context);
     // delayNavigator(context, const Duration(seconds: 4));
-
+    SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+      label: S.current.appName,
+      primaryColor: 0xFFE3F2FD,
+    ));
     return Scaffold(
       body: Center(
         child: Column(
