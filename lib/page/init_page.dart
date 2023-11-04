@@ -39,7 +39,7 @@ class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
     initApp(context);
-    delayNavigator(context, const Duration(seconds: 4));
+    // delayNavigator(context, const Duration(seconds: 4));
 
     return Scaffold(
       body: Center(

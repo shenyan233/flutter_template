@@ -30,7 +30,7 @@ class DatabaseOperate {
         //     "type INTEGER,"
         //     "fromUserId TEXT)");
       },
-      version: 0,
+      version: 1,
     );
   }
 
