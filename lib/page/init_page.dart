@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/page/responsive.dart';
 import '../generated/l10n.dart';
 import '../model/database.dart';
 import '../model/sputils.dart';
+import 'dart:io';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
@@ -18,7 +20,9 @@ class _InitPageState extends State<InitPage> {
       // SharedPreferences的初始化
       await SPUtils.init();
       // 初始化数据库
-      await DatabaseOperate.init();
+      if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
+        await DatabaseOperate.init();
+      }
       // 初始化服务器
       // 初始化更新
       // await initUpdate();
@@ -45,23 +49,25 @@ class _InitPageState extends State<InitPage> {
       body: Center(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 250),
-              child: Text(
-                S.of(context).appName,
-                style: const TextStyle(fontSize: 50),
-              ),
+            Text(
+              S.of(context).appName,
+              style: const TextStyle(fontSize: 50),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 150),
-              child: SizedBox(
-                height: 150,
-                width: 150,
-                child: ClipOval(
-                    //child: Image.asset('assets/imgs/XX.png'),
-                    ),
+            if (Responsive.isMobile(context))
+              const Text(
+                '该设备是手机',
+                style: TextStyle(fontSize: 50),
               ),
-            ),
+            if (Responsive.isTablet(context))
+              const Text(
+                '该设备是平板',
+                style: TextStyle(fontSize: 50),
+              )
+            else if (Responsive.isDesktop(context))
+              const Text(
+                '该设备是电脑',
+                style: TextStyle(fontSize: 50),
+              ),
           ],
         ),
       ),
