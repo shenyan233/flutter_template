@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/page/responsive.dart';
 import '../generated/l10n.dart';
+import '../init/routes.dart';
 import '../model/database.dart';
 import '../model/sputils.dart';
-import 'dart:io';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _InitPageState extends State<InitPage> {
       // SharedPreferences的初始化
       await SPUtils.init();
       // 初始化数据库
-      if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
+      if (PlatformUtils.isAndroid || PlatformUtils.isIOS || PlatformUtils.isMacOS) {
         await DatabaseOperate.init();
       }
       // 初始化服务器
@@ -34,9 +34,9 @@ class _InitPageState extends State<InitPage> {
   void delayNavigator(context, Duration duration) async {
     Future.delayed(duration).then((value) async {
       if (flag) {
-        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+        delegate.replace(name: '/home');
       } else {
-        delayNavigator(context, const Duration(seconds: 1));
+        delayNavigator(context, const Duration(milliseconds: 1));
       }
     });
   }
@@ -44,36 +44,15 @@ class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
     initApp(context);
-    // delayNavigator(context, const Duration(seconds: 4));
-    SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+    delayNavigator(context, const Duration(seconds: 4));
+    SystemChrome.setApplicationSwitcherDescription(
+        ApplicationSwitcherDescription(
       label: S.current.appName,
       primaryColor: 0xFFE3F2FD,
     ));
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            Text(
-              S.of(context).appName,
-              style: const TextStyle(fontSize: 50),
-            ),
-            if (Responsive.isMobile(context))
-              const Text(
-                '该设备是手机',
-                style: TextStyle(fontSize: 50),
-              ),
-            if (Responsive.isTablet(context))
-              const Text(
-                '该设备是平板',
-                style: TextStyle(fontSize: 50),
-              )
-            else if (Responsive.isDesktop(context))
-              const Text(
-                '该设备是电脑',
-                style: TextStyle(fontSize: 50),
-              ),
-          ],
-        ),
+        child: Text('加载中'),
       ),
     );
   }

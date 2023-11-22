@@ -7,11 +7,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key) {
+    // 初始化时添加第一个页面
+    delegate.push(name: '/init');
+  }
 
   // This widget is the root of your application.
   @override
@@ -21,10 +24,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: LoginStatus(false)),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         //初始化的时候加载的路由
-        initialRoute: '/',
-        onGenerateRoute: onGenerateRoute,
+        routerDelegate: delegate,
+        routeInformationParser: MyRouteInformationParser(),
         // 设置中文为首选项
         supportedLocales: [
           const Locale('zh', ''), ...S.delegate.supportedLocales
