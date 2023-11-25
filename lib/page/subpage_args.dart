@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class SubpageArgs extends StatefulWidget {
   final String message;
 
-  SubpageArgs({Key? key, required args})
-      : message = args['message'],
+  SubpageArgs({Key? key, args})
+      : message = (args != null && (args as Map).containsKey('message'))
+            ? args['message']
+            : '无参数',
         super(key: key);
 
   @override

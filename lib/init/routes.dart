@@ -34,16 +34,6 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     );
   }
 
-  @override
-  Future<bool> popRoute() {
-    if (canPop()) {
-      _pages.removeLast();
-      notifyListeners();
-      return Future.value(true);
-    }
-    return _confirmExit();
-  }
-
   bool canPop() {
     return _pages.length > 1;
   }
@@ -59,16 +49,41 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     }
   }
 
-  void push({required String name, dynamic arguments}) {
+  @override
+  Future<bool> popRoute() {
+    if (canPop()) {
+      _pages.removeLast();
+      notifyListeners();
+      return Future.value(true);
+    }
+    return Future.value(false);
+  }
+
+  void pushRoute({required String name, dynamic arguments}) {
     _pages.add(_createPage(RouteSettings(name: name, arguments: arguments)));
     notifyListeners();
   }
 
-  void replace({required String name, dynamic arguments}) {
+  void replaceRoute({required String name, dynamic arguments}) {
     if (_pages.isNotEmpty) {
       _pages.removeLast();
     }
-    push(name: name, arguments: arguments);
+    pushRoute(name: name, arguments: arguments);
+  }
+
+  FutureBuilder<T> _creatFutureBuilder<T>(Future<T> lib, Widget page) {
+    return FutureBuilder<T>(
+      future: lib,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          return page;
+        }
+        return const CircularProgressIndicator();
+      },
+    );
   }
 
   MaterialPage _createPage(RouteSettings routeSettings) {
@@ -76,66 +91,22 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
 
     switch (routeSettings.name) {
       case '/init':
-        var libraryFuture = init_page.loadLibrary();
-        child = FutureBuilder<void>(
-          future: libraryFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              return init_page.InitPage();
-            }
-            return const CircularProgressIndicator();
-          },
-        );
+        child =
+            _creatFutureBuilder(init_page.loadLibrary(), init_page.InitPage());
         break;
-      case '/home':
-        var libraryFuture = home_page.loadLibrary();
-        child = FutureBuilder<void>(
-          future: libraryFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              return home_page.HomePage();
-            }
-            return const CircularProgressIndicator();
-          },
-        );
+      case '/':
+        child =
+            _creatFutureBuilder(home_page.loadLibrary(), home_page.HomePage());
         break;
       case '/subpage':
-        var libraryFuture = subpage.loadLibrary();
-        child = FutureBuilder<void>(
-          future: libraryFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              return subpage.Subpage();
-            }
-            return const CircularProgressIndicator();
-          },
-        );
+        child = _creatFutureBuilder(subpage.loadLibrary(), subpage.Subpage());
         break;
       case '/subpage_args':
-        var libraryFuture = subpage_args.loadLibrary();
-        child = FutureBuilder<void>(
-          future: libraryFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              return subpage_args.SubpageArgs(args: routeSettings.arguments);
-            }
-            return const CircularProgressIndicator();
-          },
-        );
+        child = _creatFutureBuilder(subpage_args.loadLibrary(),
+            subpage_args.SubpageArgs(args: routeSettings.arguments));
         break;
       default:
+        print(routeSettings.name);
         child = const Center(
           child: Text('找不到页面'),
         );
@@ -149,29 +120,15 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     );
   }
 
-  Future<bool> _confirmExit() async {
-    final result = await showDialog<bool>(
-        context: navigatorKey.currentContext!,
-        builder: (context) {
-          return AlertDialog(
-            content: const Text('确定要退出App吗?'),
-            actions: [
-              TextButton(
-                child: const Text('取消'),
-                onPressed: () => Navigator.pop(context, true),
-              ),
-              TextButton(
-                child: const Text('确定'),
-                onPressed: () => Navigator.pop(context, false),
-              ),
-            ],
-          );
-        });
-    return result ?? true;
-  }
-
   @override
   List<Page> get currentConfiguration => List.of(_pages);
+
+  void _setPath(List<Page> pages) {
+    _pages.clear();
+    _pages.addAll(pages);
+
+    notifyListeners();
+  }
 
   @override
   Future<void> setNewRoutePath(List<RouteSettings> configuration) {
@@ -179,13 +136,6 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
         .map((routeSettings) => _createPage(routeSettings))
         .toList());
     return Future.value(null);
-  }
-
-  void _setPath(List<Page> pages) {
-    _pages.clear();
-    _pages.addAll(pages);
-
-    notifyListeners();
   }
 }
 

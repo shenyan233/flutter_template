@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key) {
     // 初始化时添加第一个页面
-    delegate.push(name: '/init');
+    delegate.pushRoute(name: '/init');
   }
 
   // This widget is the root of your application.

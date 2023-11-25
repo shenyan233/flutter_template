@@ -39,13 +39,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ElevatedButton(
               onPressed: () {
-                delegate.push(name: '/subpage');
+                delegate.pushRoute(name: '/subpage');
               },
               child: const Text('进入无参数子页面'),
             ),
             ElevatedButton(
               onPressed: () {
-                delegate.push(name: '/subpage_args', arguments: {'message': '传递的信息'});
+                delegate.pushRoute(name: '/subpage_args', arguments: {'message': '传递的信息'});
               },
               child: const Text('进入带参数子页面'),
             ),
