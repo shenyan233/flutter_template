@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../init/routes.dart';
+
 class SubpageArgs extends StatefulWidget {
   final String message;
 
@@ -20,7 +22,13 @@ class _SubpageArgsState extends State<SubpageArgs> {
       body: Center(
         child: Column(
           children: [
-            Text(widget.message),
+            SelectableText(widget.message),
+            ElevatedButton(
+              onPressed: () {
+                delegate.pushRoute(name: '/subpage');
+              },
+              child: const Text('进入subpage'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Router.of(context).routerDelegate.popRoute();

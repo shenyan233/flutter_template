@@ -34,7 +34,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   shared_preferences:
-  flutter_xupdate:
   sqflite:
   fluttertoast:
 

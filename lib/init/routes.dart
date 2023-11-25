@@ -71,19 +71,16 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     pushRoute(name: name, arguments: arguments);
   }
 
-  FutureBuilder<T> _creatFutureBuilder<T>(Future<T> lib, Widget page) {
-    return FutureBuilder<T>(
-      future: lib,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          return page;
+  AsyncWidgetBuilder _builder(func) {
+    return (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
         }
-        return const CircularProgressIndicator();
-      },
-    );
+        return func();
+      }
+      return const CircularProgressIndicator();
+    };
   }
 
   MaterialPage _createPage(RouteSettings routeSettings) {
@@ -91,22 +88,31 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
 
     switch (routeSettings.name) {
       case '/init':
-        child =
-            _creatFutureBuilder(init_page.loadLibrary(), init_page.InitPage());
+        child = FutureBuilder(
+          future: init_page.loadLibrary(),
+          builder: _builder(() => init_page.InitPage()),
+        );
         break;
-      case '/':
-        child =
-            _creatFutureBuilder(home_page.loadLibrary(), home_page.HomePage());
+      case '':
+        child = FutureBuilder(
+          future: home_page.loadLibrary(),
+          builder: _builder(() => home_page.HomePage()),
+        );
         break;
       case '/subpage':
-        child = _creatFutureBuilder(subpage.loadLibrary(), subpage.Subpage());
+        child = FutureBuilder(
+          future: subpage.loadLibrary(),
+          builder: _builder(() => subpage.Subpage()),
+        );
         break;
       case '/subpage_args':
-        child = _creatFutureBuilder(subpage_args.loadLibrary(),
-            subpage_args.SubpageArgs(args: routeSettings.arguments));
+        child = FutureBuilder(
+          future: subpage_args.loadLibrary(),
+          builder: _builder(
+              () => subpage_args.SubpageArgs(args: routeSettings.arguments)),
+        );
         break;
       default:
-        print(routeSettings.name);
         child = const Center(
           child: Text('找不到页面'),
         );
@@ -152,30 +158,53 @@ class MyRouteInformationParser
       return Future.value([const RouteSettings(name: '/init')]);
     }
 
-    final routeSettings = uri.pathSegments
-        .map((pathSegment) => RouteSettings(
-              name: '/$pathSegment',
-              arguments: pathSegment == uri.pathSegments.last
-                  ? uri.queryParameters
-                  : null,
-            ))
-        .toList();
+    final routeSettings = uri.toString().split('/').map((pathSegment) {
+      var uri = Uri.parse(pathSegment);
+      return RouteSettings(
+        name: uri.pathSegments.isEmpty ? '' : '/${uri.pathSegments[0]}',
+        arguments: uri.queryParameters,
+      );
+    }).toList();
 
     return Future.value(routeSettings);
   }
 
+  Map uriArgs2map(String uriArgs) {
+    var uriArgsList = uriArgs.split('&');
+    Map map = {};
+    for (String arg in uriArgsList) {
+      var argList = arg.split('=');
+      var key = argList[0];
+      var value = argList[1];
+      map[key] = value;
+    }
+    return map;
+  }
+
   @override
   RouteInformation restoreRouteInformation(List<RouteSettings> configuration) {
-    final location = configuration.last.name;
-    final arguments = _restoreArguments(configuration.last);
-
-    return RouteInformation(uri: Uri.parse('$location$arguments'));
+    String url = '';
+    for (RouteSettings routeSetting in configuration) {
+      var location = routeSetting.name;
+      var arguments = _restoreArguments(routeSetting);
+      url += '$location$arguments';
+    }
+    return RouteInformation(uri: Uri.parse(url));
   }
 
   String _restoreArguments(RouteSettings routeSettings) {
-    if (routeSettings.name != '/details') return '';
-    var args = routeSettings.arguments as Map;
-
-    return '?name=${args['name']}&imgUrl=${args['imgUrl']}';
+    if (routeSettings.arguments == null) {
+      return '';
+    }
+    String result = '?';
+    (routeSettings.arguments as Map).forEach((key, value) {
+      result += "$key=$value&";
+    });
+    if (result == '?') {
+      result = '';
+    } else {
+      result = result.substring(0, result.length - 1);
+    }
+    return result;
   }
 }

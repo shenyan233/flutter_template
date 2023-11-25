@@ -27,8 +27,6 @@ class _InitPageState extends State<InitPage> {
         await DatabaseOperate.init();
       }
       // 初始化服务器
-      // 初始化更新
-      // await initUpdate();
       flag = true;
     });
   }
@@ -36,7 +34,7 @@ class _InitPageState extends State<InitPage> {
   void delayNavigator(context, Duration duration) async {
     Future.delayed(duration).then((value) async {
       if (flag) {
-        delegate.replaceRoute(name: '/');
+        delegate.replaceRoute(name: '');
       } else {
         delayNavigator(context, const Duration(milliseconds: 1));
       }
