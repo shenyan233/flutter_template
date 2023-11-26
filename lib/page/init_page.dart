@@ -34,7 +34,7 @@ class _InitPageState extends State<InitPage> {
   void delayNavigator(context, Duration duration) async {
     Future.delayed(duration).then((value) async {
       if (flag) {
-        delegate.replaceRoute(name: '');
+        delegate.replaceRoute(name: '/home');
       } else {
         delayNavigator(context, const Duration(milliseconds: 1));
       }

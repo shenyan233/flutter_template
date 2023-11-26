@@ -93,7 +93,7 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
           builder: _builder(() => init_page.InitPage()),
         );
         break;
-      case '':
+      case '/home':
         child = FutureBuilder(
           future: home_page.loadLibrary(),
           builder: _builder(() => home_page.HomePage()),
@@ -158,10 +158,10 @@ class MyRouteInformationParser
       return Future.value([const RouteSettings(name: '/init')]);
     }
 
-    final routeSettings = uri.toString().split('/').map((pathSegment) {
+    final routeSettings = uri.toString().split('/').sublist(1).map((pathSegment) {
       var uri = Uri.parse(pathSegment);
       return RouteSettings(
-        name: uri.pathSegments.isEmpty ? '' : '/${uri.pathSegments[0]}',
+        name: '/${uri.pathSegments[0]}',
         arguments: uri.queryParameters,
       );
     }).toList();
