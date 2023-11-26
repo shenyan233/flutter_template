@@ -1,44 +1,39 @@
-# flutter_template
+# Flutter_template
 
-A Flutter Template project.
+This project is a starting point for a Flutter application.
+Compared to the official default template created,
+this project implements functions such as state management,
+Navigator 2.0 routing for Url, localization, etc.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The entry path for the project is 'lib/init/init.dart'
 
 ## Feature
 
-### 状态管理
+### State management
 
-使用provider。
+By provider.
 
-### 路由控制
+### Navigator 2.0
+In 'lib/init/routes.dart'.
 
-### 本地化
+### main.dart.js Chunking of Web
+By deferred loading in 'lib/init/routes.dart'.
 
-基于Flutter Intl插件和flutter_localizations库。
-参考：https://blog.csdn.net/qq_39424143/article/details/105496999
+### Localization
 
-### 设置保存
+By Flutter Intl plugin and flutter_localizations lib.
+Reference：https://blog.csdn.net/qq_39424143/article/details/105496999
 
-使用SharedPreferences。
+### Persistent storage for simple data
 
-### 更新功能
+By SharedPreferences.
 
-使用flutter_xupdate。
+### Local database
 
-### 本地数据库
+By sqflite.
 
-使用sqflite。
+### Feedback
 
-### 反馈功能
-
+Display alert dialog and tips toast.
