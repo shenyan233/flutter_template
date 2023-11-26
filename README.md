@@ -5,6 +5,8 @@ Compared to the official default template created,
 this project implements functions such as state management,
 Navigator 2.0 routing for Url, localization, etc.
 
+中文介绍: http://worthpen.top/#/home/blog?blog=pot-blog37.md
+
 ## Getting Started
 
 The entry path for the project is 'lib/init/init.dart'
