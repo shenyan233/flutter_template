@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../control/send.dart';
 import '../generated/l10n.dart';
 import '../model/datum/feedback.dart';
@@ -11,7 +12,7 @@ class FeedbackDialog extends StatefulWidget {
 }
 
 class _FeedbackDialogState extends State<FeedbackDialog> {
-  String? feedbackStr;
+  String feedbackStr='';
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +35,22 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
             child: Text(S.of(context).cancel)),
         ElevatedButton(
             onPressed: () {
-              UserFeedback? feedback = UserFeedback.generate(feedbackStr);
-              sendControl(
-                  context,
-                  feedback,
-                  nullTips: S.of(context).inputFeedback,
-                  successTips: S.of(context).success,
-                  failTips: S.of(context).fail);
+              if (feedbackStr.isNotEmpty) {
+                UserFeedback feedback = UserFeedback(feedbackStr);
+                sendControl(
+                    context,
+                    feedback,
+                    nullTips: S.of(context).inputFeedback,
+                    successTips: S.of(context).success,
+                    failTips: S.of(context).fail);
+              }else{
+                Fluttertoast.showToast(
+                  msg: S.current.inputFeedback,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                );
+              }
             },
             child: Text(S.of(context).ok)),
       ],
