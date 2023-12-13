@@ -15,9 +15,4 @@ class UserFeedback extends Datum {
   toJson(bool isNative){
 
   }
-
-  @override
-  cloudSave() {
-
-  }
 }

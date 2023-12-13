@@ -9,7 +9,10 @@ import 'package:path/path.dart';
 abstract class Datum{
   toJson(bool isNative);
 
-  cloudSave();
+  Future cloudSave() async {
+    // TODO 这里需要补充保存逻辑
+    // await this.save();
+  }
 }
 
 class DatabaseOperate {
