@@ -1,18 +1,16 @@
 import '../database.dart';
 
-class UserFeedback extends Datum {
+class UserFeedback extends Entity {
+  String tableName = 'UserFeedback';
   String content;
 
   UserFeedback(this.content);
 
-  // 生成对象，如果生成失败，则返回null
-  static UserFeedback? generate(String? content) {
-    return content == null ? null : UserFeedback(content);
-  }
-
+  factory UserFeedback.fromJson(Map<String, dynamic> json) => UserFeedback(
+    json['content'] as String,
+  );
 
   @override
-  toJson(bool isNative){
-
+  toJson() {
   }
 }

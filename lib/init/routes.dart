@@ -164,7 +164,7 @@ class MyRouteInformationParser
       var uri = Uri.parse(pathSegment);
       return RouteSettings(
         name: '/${uri.pathSegments[0]}',
-        arguments: uri.queryParameters,
+        arguments: uri.queryParameters.length==0?{}:{'urlRequest': uri.queryParameters},
       );
     }).toList();
 
@@ -195,11 +195,11 @@ class MyRouteInformationParser
   }
 
   String _restoreArguments(RouteSettings routeSettings) {
-    if (routeSettings.arguments == null) {
+    if (routeSettings.arguments == null || !((routeSettings.arguments as Map).containsKey('urlRequest'))) {
       return '';
     }
     String result = '?';
-    (routeSettings.arguments as Map).forEach((key, value) {
+    (routeSettings.arguments as Map)['urlRequest'].forEach((key, value) {
       result += "$key=$value&";
     });
     if (result == '?') {

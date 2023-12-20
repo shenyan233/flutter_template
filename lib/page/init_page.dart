@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/page/responsive.dart';
+import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
 import '../init/routes.dart';
+import '../init/state.dart';
 import '../model/database.dart';
 import '../model/sputils.dart';
 
@@ -27,6 +29,12 @@ class _InitPageState extends State<InitPage> {
         await DatabaseOperate.init();
       }
       // 初始化服务器
+      //初始化登陆状态
+      LoginStatus loginStatus = Provider.of<LoginStatus>(context, listen: false);
+      loginStatus.isLogin = SPUtils.spf.getString('username') == null ||
+          SPUtils.spf.getString('username')!.isEmpty
+          ? false
+          : true;
       flag = true;
     });
   }

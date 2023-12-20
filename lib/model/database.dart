@@ -6,10 +6,10 @@ import 'package:path/path.dart';
 // 本地数据获取后，如果无关联表，则可视为和云端数据相同，如果存在关联表，则查询关联表作为map后视为
 // 和云端数据相同
 // 该数据为基本数据类型，继承云端数据类型即可进行上传，同时本地数据保存也依赖该类
-abstract class Datum{
-  toJson(bool isNative);
+abstract class Entity{
+  toJson();
 
-  Future cloudSave() async {
+  Future serverSave() async {
     // TODO 这里需要补充保存逻辑
     // await this.save();
   }
@@ -37,10 +37,10 @@ class DatabaseOperate {
     );
   }
 
-  static insert<T extends Datum>(String table, T data) async {
+  static insert<T extends Entity>(String table, T data) async {
     int insertSuccess = await _database!.insert(
       table,
-      data.toJson(true),
+      data.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     if (insertSuccess == 0) {
@@ -49,11 +49,11 @@ class DatabaseOperate {
   }
 
   //增(批量)：messages表的数据
-  static Future<void> insertBatch<T extends Datum>(List<T> data,
+  static Future<void> insertBatch<T extends Entity>(List<T> data,
       {Function(T)? withInsertOther}) async {
     Batch batch = _database!.batch();
     for (T datum in data) {
-      batch.insert('messages', datum.toJson(true), conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('messages', datum.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
       if (withInsertOther != null) {
         withInsertOther(datum);
       }
