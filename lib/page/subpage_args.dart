@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../init/routes.dart';
+import '../routes.dart';
 
 class SubpageArgs extends StatefulWidget {
   final String message;

@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_template/page/responsive.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
-import '../init/routes.dart';
-import '../init/state.dart';
+import '../routes.dart';
+import '../state.dart';
 import '../model/database.dart';
 import '../model/sputils.dart';
 

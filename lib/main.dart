@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/init/routes.dart';
-import 'package:flutter_template/init/state.dart';
+import 'package:flutter_template/routes.dart';
+import 'package:flutter_template/state.dart';
 import 'package:provider/provider.dart';
-import '../generated/l10n.dart';
+import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 
