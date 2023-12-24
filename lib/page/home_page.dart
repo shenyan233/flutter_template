@@ -66,19 +66,19 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               onPressed: () {
                 delegate.pushRoute(name: '/subpage_args', arguments: {
-                  'urlRequest': {'message_required': '必须信息'},
+                  'urlRequest': {'messageRequired': '必须信息'},
                 });
               },
-              child: const Text('进入带参数子页面(message_required)'),
+              child: const Text('进入带参数子页面(messageRequired)'),
             ),
             ElevatedButton(
               onPressed: () {
                 delegate.pushRoute(name: '/subpage_args', arguments: {
-                  'urlRequest': {'message_required': '必须信息'},
+                  'urlRequest': {'messageRequired': '必须信息'},
                   'message': '传递的信息'
                 });
               },
-              child: const Text('进入带参数子页面(message, message_required)'),
+              child: const Text('进入带参数子页面(message, messageRequired)'),
             ),
           ],
         ),

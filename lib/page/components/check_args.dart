@@ -1,3 +1,7 @@
+bool checkInit(){
+  return true;
+}
+
 mixin CheckArgs {
   Map checkArgs(Map? args) {
     args ??= {};

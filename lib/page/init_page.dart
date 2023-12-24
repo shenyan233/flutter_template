@@ -18,6 +18,21 @@ class InitPage extends StatefulWidget {
 class _InitPageState extends State<InitPage> {
   bool flag = false;
 
+  @override
+  void initState() {
+    initApp(context);
+    if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
+      delayNavigator(context, const Duration(seconds: 4));
+    } else {
+      delayNavigator(context, const Duration(seconds: 0));
+    }
+    SystemChrome.setApplicationSwitcherDescription(
+        ApplicationSwitcherDescription(
+          label: S.current.appName,
+        ));
+    super.initState();
+  }
+
   void initApp(context) {
     Future(() async {
       // SharedPreferences的初始化
@@ -39,10 +54,10 @@ class _InitPageState extends State<InitPage> {
     });
   }
 
-  void delayNavigator(context, Duration duration) async {
-    Future.delayed(duration).then((value) async {
+  void delayNavigator(context, Duration duration) {
+    Future.delayed(duration).then((value) {
       if (flag) {
-        if ((delegate.page[0] as MaterialPage).name == '/init'){
+        if ((delegate.page[0]).name == '/init'){
           delegate.replaceRoute(name: '/home');
         }
       } else {
@@ -53,17 +68,6 @@ class _InitPageState extends State<InitPage> {
 
   @override
   Widget build(BuildContext context) {
-    initApp(context);
-    if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
-      delayNavigator(context, const Duration(seconds: 4));
-    } else {
-      delayNavigator(context, const Duration(seconds: 0));
-    }
-    SystemChrome.setApplicationSwitcherDescription(
-        ApplicationSwitcherDescription(
-      label: S.current.appName,
-      primaryColor: 0xFFE3F2FD,
-    ));
     return const Scaffold(
       body: Center(
         child: Text('加载中'),

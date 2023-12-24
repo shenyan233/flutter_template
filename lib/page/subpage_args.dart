@@ -20,7 +20,7 @@ class SubpageArgs extends StatefulWidget with CheckArgs{
   State<SubpageArgs> createState() => _SubpageArgsState();
 }
 
-class _SubpageArgsState extends State<SubpageArgs> {
+class _SubpageArgsState extends State<SubpageArgs>{
   late bool isErrorPage;
   late String message;
 
@@ -32,16 +32,7 @@ class _SubpageArgsState extends State<SubpageArgs> {
     if (!isErrorPage){
       // 传递参数
       message = widget.message;
-      // 当满足必须参数时，检查冗余参数是否满足，当不满足冗余时，异步获取冗余参数
-      // 当存在urlRequest参数时，urlRequest参数均为必须参数；
-      // 当不存在urlRequest参数时，非urlRequest参数中既有非冗余参数，也有冗余参数。
-      if (message.isEmpty){
-        Future.delayed(const Duration(seconds: 1)).then((value){
-          setState(() {
-            message = '延迟获取';
-          });
-        });
-      }
+      getAsynArgs();
     }
     super.initState();
   }
@@ -52,6 +43,25 @@ class _SubpageArgsState extends State<SubpageArgs> {
       isErrorPage = true;
     }else{
       isErrorPage = false;
+    }
+  }
+
+  void getAsynArgs(){
+    // 当满足必须参数时，检查冗余参数是否满足，当不满足冗余时，异步获取冗余参数
+    // 当存在urlRequest参数时，urlRequest参数均为必须参数；
+    // 当不存在urlRequest参数时，非urlRequest参数中既有非冗余参数，也有冗余参数。
+    if (checkInit()) {
+      if (message.isEmpty){
+        Future.delayed(const Duration(seconds: 1)).then((value){
+          setState(() {
+            message = '延迟获取';
+          });
+        });
+      }
+    } else{
+      Future.delayed(const Duration(seconds: 1)).then((value){
+        getAsynArgs();
+      });
     }
   }
 
