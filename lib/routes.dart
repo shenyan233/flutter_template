@@ -111,7 +111,7 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
         child = FutureBuilder(
           future: subpage_args.loadLibrary(),
           builder: _builder(
-              () => subpage_args.SubpageArgs(args: routeSettings.arguments)),
+              () => subpage_args.SubpageArgs(args: routeSettings.arguments as Map?)),
         );
         break;
       default:
@@ -164,7 +164,7 @@ class MyRouteInformationParser
       var uri = Uri.parse(pathSegment);
       return RouteSettings(
         name: '/${uri.pathSegments[0]}',
-        arguments: uri.queryParameters.length==0?{}:{'urlRequest': uri.queryParameters},
+        arguments: uri.queryParameters.isEmpty?{}:{'urlRequest': uri.queryParameters},
       );
     }).toList();
 

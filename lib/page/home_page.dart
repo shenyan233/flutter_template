@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/page/responsive.dart';
+import 'package:flutter_template/page/components/responsive.dart';
 import '../generated/l10n.dart';
 import '../routes.dart';
 
@@ -11,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +44,41 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                delegate.pushRoute(name: '/subpage_args', arguments: {'message': '传递的信息'});
+                delegate.pushRoute(
+                  name: '/subpage_args',);
               },
-              child: const Text('进入带参数子页面'),
+              child: const Text('进入带参数子页面(no arguments)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                delegate.pushRoute(
+                    name: '/subpage_args', arguments: {});
+              },
+              child: const Text('进入带参数子页面(empty arguments)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                delegate.pushRoute(
+                    name: '/subpage_args', arguments: {'message': '传递的信息'});
+              },
+              child: const Text('进入带参数子页面(message)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                delegate.pushRoute(name: '/subpage_args', arguments: {
+                  'urlRequest': {'message_required': '必须信息'},
+                });
+              },
+              child: const Text('进入带参数子页面(message_required)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                delegate.pushRoute(name: '/subpage_args', arguments: {
+                  'urlRequest': {'message_required': '必须信息'},
+                  'message': '传递的信息'
+                });
+              },
+              child: const Text('进入带参数子页面(message, message_required)'),
             ),
           ],
         ),

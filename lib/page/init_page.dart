@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_template/page/responsive.dart';
+import 'package:flutter_template/page/components/responsive.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
 import '../routes.dart';
