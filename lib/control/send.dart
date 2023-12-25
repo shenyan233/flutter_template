@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../model/database.dart';
+import '../model/entity.dart';
 
 sendControl(BuildContext context, Entity entity,
     {String nullTips = "请输入信息",

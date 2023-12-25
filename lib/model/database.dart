@@ -1,19 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-// 本地和云端的数据需要区分，因为两者可能数据类型不同，或者toJson的级别不同，本地数据需要一步到位，
-// 而云端不需要
-// 本地数据获取后，如果无关联表，则可视为和云端数据相同，如果存在关联表，则查询关联表作为map后视为
-// 和云端数据相同
-// 该数据为基本数据类型，继承云端数据类型即可进行上传，同时本地数据保存也依赖该类
-abstract class Entity{
-  toJson();
-
-  Future serverSave() async {
-    // TODO 这里需要补充保存逻辑
-    // await this.save();
-  }
-}
+import 'entity.dart';
 
 class DatabaseOperate {
   static Database? _database;
