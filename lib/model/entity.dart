@@ -6,12 +6,27 @@
 abstract class Entity<T>{
   // 为了保证该数据类型适应于不同的服务器类型，如Object或者User，而不用分别建立两个Entity，
   // 此处用传入的方式，而不用继承的方式
-  late T serverObject;
+  late T _serverObject;
 
-  toJson();
+  toJson(){}
 
   Future serverSave() async {
     // TODO 这里需要补充保存逻辑
     // await this.save();
+  }
+}
+
+class UserFeedback extends Entity {
+  String tableName = 'UserFeedback';
+  String content;
+
+  UserFeedback(this.content);
+
+  factory UserFeedback.fromJson(Map<String, dynamic> json) => UserFeedback(
+    json['content'] as String,
+  );
+
+  @override
+  toJson() {
   }
 }

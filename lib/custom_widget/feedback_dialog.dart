@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../control/send.dart';
 import '../generated/l10n.dart';
-import '../model/entities/feedback.dart';
+import '../model/entity.dart';
 
 class FeedbackDialog extends StatefulWidget {
   const FeedbackDialog({Key? key}) : super(key: key);

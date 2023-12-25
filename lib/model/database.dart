@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'entities/entity.dart';
+import 'entity.dart';
 
 class DatabaseOperate {
   static Database? _database;
