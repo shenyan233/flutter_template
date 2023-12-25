@@ -1,4 +1,4 @@
-import '../database.dart';
+import 'entity.dart';
 
 class UserFeedback extends Entity {
   String tableName = 'UserFeedback';
