@@ -26,32 +26,34 @@ class _InitPageState extends State<InitPage> {
     } else {
       delayNavigator(context, const Duration(seconds: 0));
     }
-    SystemChrome.setApplicationSwitcherDescription(
-        ApplicationSwitcherDescription(
-          label: S.current.appName,
-        ));
     super.initState();
   }
 
-  void initApp(context) {
-    Future(() async {
-      // SharedPreferences的初始化
-      await SPUtils.init();
-      // 初始化数据库
-      if (PlatformUtils.isAndroid ||
-          PlatformUtils.isIOS ||
-          PlatformUtils.isMacOS) {
-        await DatabaseOperate.init();
-      }
-      // 初始化服务器
-      //初始化登陆状态
-      LoginStatus loginStatus = Provider.of<LoginStatus>(context, listen: false);
-      loginStatus.isLogin = SPUtils.spf.getString('username') == null ||
-          SPUtils.spf.getString('username')!.isEmpty
-          ? false
-          : true;
-      flag = true;
-    });
+  Future<void> initApp(context) async {
+    if (PlatformUtils.isWeb){
+      await SystemChrome.setApplicationSwitcherDescription(
+          ApplicationSwitcherDescription(
+            label: S.current.appName,
+          ));
+    }
+    // SharedPreferences的初始化
+    await SPUtils.init();
+    // 初始化数据库
+    if (PlatformUtils.isAndroid ||
+        PlatformUtils.isIOS ||
+        PlatformUtils.isMacOS) {
+      await DatabaseOperate.init();
+    }
+    // 初始化服务器
+    //初始化登陆状态
+    LoginStatus loginStatus = Provider.of<LoginStatus>(context, listen: false);
+    loginStatus.isLogin = SPUtils.spf.getString('username') == null ||
+        SPUtils.spf.getString('username')!.isEmpty
+        ? false
+        : true;
+    // 初始化更新
+    // await initUpdate();
+    flag = true;
   }
 
   void delayNavigator(context, Duration duration) {
