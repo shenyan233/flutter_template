@@ -9,7 +9,7 @@ Navigator 2.0 routing for Url, localization, etc.
 
 ## Getting Started
 
-The entry path for the project is 'lib/init/init.dart'
+The entry path for the project is 'lib/main.dart'
 
 ## Feature
 
@@ -18,11 +18,11 @@ The entry path for the project is 'lib/init/init.dart'
 By provider.
 
 ### Navigator 2.0
-In 'lib/init/routes.dart'. Just need to modify The function _createPage().
+In 'lib/routes.dart'. Just need to modify The function _createPage().
 
 ### main.dart.js Chunking of Web
 On Web, it is not necessary to retrieve all the content from the server before it can be displayed. 
-By deferred loading in 'lib/init/routes.dart'.
+By deferred loading in 'lib/routes.dart'.
 
 ### Localization
 
