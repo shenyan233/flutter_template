@@ -1,6 +1,4 @@
-bool checkInit(){
-  return true;
-}
+bool hasInit = false;
 
 mixin CheckArgs {
   Map checkArgs(Map? args) {

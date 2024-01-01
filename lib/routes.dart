@@ -9,12 +9,14 @@
 // 跳转方法
 // delegate.push(name: '/init',arguments: arguments);
 import 'package:flutter/material.dart';
-
-import 'package:flutter_template/page/init_page.dart' deferred as init_page;
+import 'page/error_page.dart' deferred as error_page;
 import 'package:flutter_template/page/home_page.dart' deferred as home_page;
 import 'package:flutter_template/page/subpage.dart' deferred as subpage;
 import 'package:flutter_template/page/subpage_args.dart'
     deferred as subpage_args;
+
+import 'page/components/check_args.dart';
+import 'page/load_page.dart';
 
 MyRouterDelegate delegate = MyRouterDelegate();
 
@@ -81,42 +83,46 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
         }
         return func();
       }
-      return const CircularProgressIndicator();
+      return const LoadPage();
     };
+  }
+
+  Future afterInit(Future future) async {
+    if(hasInit){
+      return future;
+    }else{
+      await Future.delayed(const Duration(seconds: 1));
+      return afterInit(future);
+    }
   }
 
   MaterialPage _createPage(RouteSettings routeSettings) {
     Widget child;
 
     switch (routeSettings.name) {
-      case '/init':
-        child = FutureBuilder(
-          future: init_page.loadLibrary(),
-          builder: _builder(() => init_page.InitPage()),
-        );
-        break;
       case '/home':
         child = FutureBuilder(
-          future: home_page.loadLibrary(),
+          future: afterInit(home_page.loadLibrary()),
           builder: _builder(() => home_page.HomePage()),
         );
         break;
       case '/subpage':
         child = FutureBuilder(
-          future: subpage.loadLibrary(),
+          future: afterInit(subpage.loadLibrary()),
           builder: _builder(() => subpage.Subpage()),
         );
         break;
       case '/subpage_args':
         child = FutureBuilder(
-          future: subpage_args.loadLibrary(),
+          future: afterInit(subpage_args.loadLibrary()),
           builder: _builder(
               () => subpage_args.SubpageArgs(args: routeSettings.arguments as Map?)),
         );
         break;
       default:
-        child = const Center(
-          child: Text('找不到页面'),
+        child = FutureBuilder(
+          future: afterInit(error_page.loadLibrary()),
+          builder: _builder(() => error_page.ErrorPage()),
         );
     }
 
@@ -157,7 +163,7 @@ class MyRouteInformationParser
     final uri = routeInformation.uri;
 
     if (uri.pathSegments.isEmpty) {
-      return Future.value([const RouteSettings(name: '/init')]);
+      return Future.value([const RouteSettings(name: '/home')]);
     }
 
     final routeSettings = uri.toString().split('/').sublist(1).map((pathSegment) {
@@ -187,9 +193,11 @@ class MyRouteInformationParser
   RouteInformation restoreRouteInformation(List<RouteSettings> configuration) {
     String url = '';
     for (RouteSettings routeSetting in configuration) {
-      var location = routeSetting.name;
-      var arguments = _restoreArguments(routeSetting);
-      url += '$location$arguments';
+      if (routeSetting.name!='/home') {
+        var location = routeSetting.name;
+        var arguments = _restoreArguments(routeSetting);
+        url += '$location$arguments';
+      }
     }
     return RouteInformation(uri: Uri.parse(url));
   }

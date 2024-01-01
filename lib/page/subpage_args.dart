@@ -50,7 +50,7 @@ class _SubpageArgsState extends State<SubpageArgs>{
     // 当满足必须参数时，检查冗余参数是否满足，当不满足冗余时，异步获取冗余参数
     // 当存在urlRequest参数时，urlRequest参数均为必须参数；
     // 当不存在urlRequest参数时，非urlRequest参数中既有非冗余参数，也有冗余参数。
-    if (checkInit()) {
+    if (hasInit) {
       if (message.isEmpty){
         Future.delayed(const Duration(seconds: 1)).then((value){
           setState(() {

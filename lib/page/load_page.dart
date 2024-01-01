@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_template/page/components/responsive.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
-import '../routes.dart';
-import '../state.dart';
 import '../model/database.dart';
+import '../state.dart';
 import '../model/sputils.dart';
+import 'components/check_args.dart';
+import 'components/responsive.dart';
 
-class InitPage extends StatefulWidget {
-  const InitPage({Key? key}) : super(key: key);
+class LoadPage extends StatefulWidget {
+  const LoadPage({Key? key}) : super(key: key);
 
   @override
-  State<InitPage> createState() => _InitPageState();
+  State<LoadPage> createState() => _LoadPageState();
 }
 
-class _InitPageState extends State<InitPage> {
-  bool flag = false;
+class _LoadPageState extends State<LoadPage> {
+  bool flagDelay = false;
 
   @override
   void initState() {
-    initApp(context);
-    if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
-      delayNavigator(context, const Duration(seconds: 4));
-    } else {
-      delayNavigator(context, const Duration(seconds: 0));
+    if(!hasInit){
+      initApp(context);
+      if (PlatformUtils.isAndroid || PlatformUtils.isIOS) {
+        Future.delayed(const Duration(seconds: 4)).then((value) {
+          flagDelay = true;
+        });
+      } else {
+        flagDelay = true;
+      }
     }
     super.initState();
   }
@@ -53,27 +57,34 @@ class _InitPageState extends State<InitPage> {
         : true;
     // 初始化更新
     // await initUpdate();
-    flag = true;
+    checkDelay();
   }
 
-  void delayNavigator(context, Duration duration) {
-    Future.delayed(duration).then((value) {
-      if (flag) {
-        if ((delegate.page[0]).name == '/init'){
-          delegate.replaceRoute(name: '/home');
-        }
-      } else {
-        delayNavigator(context, const Duration(milliseconds: 1));
-      }
-    });
+  void checkDelay(){
+    if(flagDelay){
+      hasInit = true;
+    }else{
+      Future.delayed(const Duration(seconds: 1)).then((value){
+        checkDelay();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('加载中'),
+        child: CircularProgressIndicator(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if(hasInit){
+      super.dispose();
+    }else{
+      Future.delayed(const Duration(seconds: 1)).then((value) => dispose());
+    }
   }
 }

@@ -4,16 +4,18 @@ import 'package:flutter_template/state.dart';
 import 'package:provider/provider.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 
 void main() {
+  usePathUrlStrategy();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key) {
     // 初始化时添加第一个页面
-    delegate.pushRoute(name: '/init');
+    delegate.pushRoute(name: '/home');
   }
 
   // This widget is the root of your application.
