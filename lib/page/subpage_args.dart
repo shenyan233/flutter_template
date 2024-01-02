@@ -26,6 +26,7 @@ class _SubpageArgsState extends State<SubpageArgs>{
 
   @override
   void initState() {
+    print('initState in SubpageArgs');
     // TODO: implement required args check
     // 必须参数的检查，若缺少则进入错误页面
     passRequiredCheck(widget.messageRequired);
