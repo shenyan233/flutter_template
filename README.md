@@ -13,6 +13,8 @@ The entry path for the project is 'lib/main.dart'
 
 ## Feature
 
+### Responsive Layout
+
 ### State management
 
 By provider.
@@ -40,3 +42,7 @@ By sqflite.
 ### Feedback
 
 Display alert dialog and tips toast.
+
+### SEO for Web
+
+By dependencies: seo:.

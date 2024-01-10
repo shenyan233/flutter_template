@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:seo/seo.dart';
 
 
 void main() {
@@ -26,22 +27,26 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: LoginStatus(false)),
       ],
-      child: MaterialApp.router(
-        //初始化的时候加载的路由
-        routerDelegate: delegate,
-        routeInformationParser: MyRouteInformationParser(),
-        // 设置中文为首选项
-        supportedLocales: [
-          const Locale('zh', ''), ...S.delegate.supportedLocales
-        ],
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      child: SeoController(
+        enabled: true,
+        tree: WidgetTree(context: context),
+        child: MaterialApp.router(
+          //初始化的时候加载的路由
+          routerDelegate: delegate,
+          routeInformationParser: MyRouteInformationParser(),
+          // 设置中文为首选项
+          supportedLocales: [
+            const Locale('zh', ''), ...S.delegate.supportedLocales
+          ],
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
         ),
       ),
     );
