@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../routes.dart';
 import 'components/check_args.dart';
-import 'components/error_page.dart';
+import 'error_page.dart';
 
 class SubpageArgs extends StatefulWidget with CheckArgs{
   late final String messageRequired;

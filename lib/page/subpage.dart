@@ -12,11 +12,21 @@ class _SubpageState extends State<Subpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Router.of(context).routerDelegate.popRoute();
-          },
-          child: const Text('返回'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Router.of(context).routerDelegate.popRoute();
+              },
+              child: const Text('routerDelegate.popRoute'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Navigator.of(context).pop'),
+            ),
+          ],
         ),
       ),
     );
