@@ -8,23 +8,41 @@
 // child = SubpageArgs(args: routeSettings.arguments);
 // 跳转方法
 // delegate.push(name: '/init',arguments: arguments);
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'generated/l10n.dart';
+import 'main.dart';
 import 'page/error_page.dart' deferred as error_page;
 import 'package:flutter_template/page/home_page.dart' deferred as home_page;
 import 'package:flutter_template/page/subpage.dart' deferred as subpage;
 import 'package:flutter_template/page/subpage_args.dart'
     deferred as subpage_args;
-
 import 'page/components/check_args.dart';
 import 'page/load_page.dart';
+import 'package:intl/intl.dart';
 
 MyRouterDelegate delegate = MyRouterDelegate();
 
+class CustomPage<T> extends MaterialPage<T> {
+  final Completer completerResult = Completer();
+
+  CustomPage({
+    required super.child,
+    super.maintainState = true,
+    super.fullscreenDialog = false,
+    super.allowSnapshotting = true,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+}
+
 class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<List<RouteSettings>> {
-  final List<Page> _pages = [];
+  final List<CustomPage> _pages = [];
 
-  List<Page> get page => _pages;
+  List<CustomPage> get page => _pages;
 
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -46,7 +64,9 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     if (!route.didPop(result)) return false;
 
     if (canPop()) {
-      _pages.removeLast();
+      CustomPage page = _pages.removeLast();
+      notifyListeners();
+      page.completerResult.complete();
       return true;
     } else {
       return false;
@@ -56,16 +76,21 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
   @override
   Future<bool> popRoute() {
     if (canPop()) {
-      _pages.removeLast();
+      CustomPage page = _pages.removeLast();
       notifyListeners();
+      page.completerResult.complete();
       return Future.value(true);
     }
     return Future.value(false);
   }
 
-  void pushRoute({required String name, dynamic arguments}) {
-    _pages.add(_createPage(RouteSettings(name: name, arguments: arguments)));
+  Future<void> pushRoute({required String name, dynamic arguments}) async {
+    print('pushRoute $name');
+    CustomPage page =
+        _createPage(RouteSettings(name: name, arguments: arguments));
+    _pages.add(page);
     notifyListeners();
+    return await page.completerResult.future;
   }
 
   void replaceRoute({required String name, dynamic arguments}) {
@@ -88,15 +113,15 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
   }
 
   Future afterInit(Future future) async {
-    if(hasInit){
+    if (hasInit) {
       return future;
-    }else{
+    } else {
       await Future.delayed(const Duration(seconds: 1));
       return afterInit(future);
     }
   }
 
-  MaterialPage _createPage(RouteSettings routeSettings) {
+  CustomPage _createPage(RouteSettings routeSettings) {
     Widget child;
 
     switch (routeSettings.name) {
@@ -115,8 +140,8 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
       case '/subpage_args':
         child = FutureBuilder(
           future: afterInit(subpage_args.loadLibrary()),
-          builder: _builder(
-              () => subpage_args.SubpageArgs(args: routeSettings.arguments as Map?)),
+          builder: _builder(() =>
+              subpage_args.SubpageArgs(args: routeSettings.arguments as Map?)),
         );
         break;
       default:
@@ -126,7 +151,7 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
         );
     }
 
-    return MaterialPage(
+    return CustomPage(
       child: child,
       key: Key(routeSettings.name!) as LocalKey,
       name: routeSettings.name,
@@ -135,9 +160,9 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
   }
 
   @override
-  List<Page> get currentConfiguration => List.of(_pages);
+  List<CustomPage> get currentConfiguration => List.of(_pages);
 
-  void _setPath(List<Page> pages) {
+  void _setPath(List<CustomPage> pages) {
     _pages.clear();
     _pages.addAll(pages);
 
@@ -160,17 +185,31 @@ class MyRouteInformationParser
   @override
   Future<List<RouteSettings>> parseRouteInformation(
       RouteInformation routeInformation) {
+    print('parseRouteInformation');
     final uri = routeInformation.uri;
 
     if (uri.pathSegments.isEmpty) {
       return Future.value([const RouteSettings(name: '/home')]);
     }
 
-    final routeSettings = uri.toString().split('/').sublist(1).map((pathSegment) {
-      var uri = Uri.parse(pathSegment);
+    final routeSettings =
+        uri.toString().split('/').sublist(1).map((pathSegment) {
+      List<Locale> result = S.delegate.supportedLocales
+          .where((element) => element.languageCode == pathSegment)
+          .toList();
+      if (result.isNotEmpty) {
+        Future(() {
+          MyAppState.setting.changeLocale!(
+              Locale.fromSubtags(languageCode: result[0].languageCode));
+        });
+        pathSegment = 'home';
+      }
+      Uri uri = Uri.parse(pathSegment);
       return RouteSettings(
         name: '/${uri.pathSegments[0]}',
-        arguments: uri.queryParameters.isEmpty?{}:{'urlRequest': uri.queryParameters},
+        arguments: uri.queryParameters.isEmpty
+            ? {}
+            : {'urlRequest': uri.queryParameters},
       );
     }).toList();
 
@@ -191,19 +230,21 @@ class MyRouteInformationParser
 
   @override
   RouteInformation restoreRouteInformation(List<RouteSettings> configuration) {
+    print('restoreRouteInformation');
     String url = '';
     for (RouteSettings routeSetting in configuration) {
-      if (routeSetting.name!='/home') {
-        var location = routeSetting.name;
-        var arguments = _restoreArguments(routeSetting);
-        url += '$location$arguments';
-      }
+      var location = routeSetting.name == '/home'
+          ? '/${Intl.defaultLocale}'
+          : routeSetting.name;
+      var arguments = _restoreArguments(routeSetting);
+      url += '$location$arguments';
     }
     return RouteInformation(uri: Uri.parse(url));
   }
 
   String _restoreArguments(RouteSettings routeSettings) {
-    if (routeSettings.arguments == null || !((routeSettings.arguments as Map).containsKey('urlRequest'))) {
+    if (routeSettings.arguments == null ||
+        !((routeSettings.arguments as Map).containsKey('urlRequest'))) {
       return '';
     }
     String result = '?';

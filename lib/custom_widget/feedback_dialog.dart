@@ -8,7 +8,7 @@ class FeedbackDialog extends StatefulWidget {
   const FeedbackDialog({Key? key}) : super(key: key);
 
   @override
-  _FeedbackDialogState createState() => _FeedbackDialogState();
+  State<FeedbackDialog> createState() => _FeedbackDialogState();
 }
 
 class _FeedbackDialogState extends State<FeedbackDialog> {

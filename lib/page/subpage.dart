@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seo/seo.dart';
-
+import 'package:intl/intl.dart';
+import '../custom_widget/feedback_dialog.dart';
+import '../generated/l10n.dart';
+import '../main.dart';
 import 'components/responsive.dart';
 
 class Subpage extends StatefulWidget {
@@ -13,12 +16,19 @@ class Subpage extends StatefulWidget {
 
 class _SubpageState extends State<Subpage> {
   @override
+  void didChangeDependencies() {
+    print('didChangeDependencies in Subpage');
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (PlatformUtils.isWeb){
+    print('build Subpage');
+    if (PlatformUtils.isWeb) {
       SystemChrome.setApplicationSwitcherDescription(
-          const ApplicationSwitcherDescription(
-            label: 'subpage',
-          ));
+          ApplicationSwitcherDescription(
+        label: '${S.current.appName} - subpage',
+      ));
     }
     return Seo.head(
       tags: const [
@@ -31,7 +41,7 @@ class _SubpageState extends State<Subpage> {
             children: [
               Seo.text(
                 text: 'Some SEO text',
-                child: Text('SEO'),
+                child: Text('${S.current.appName} - SEO'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -44,6 +54,31 @@ class _SubpageState extends State<Subpage> {
                   Navigator.of(context).pop();
                 },
                 child: const Text('Navigator.of(context).pop'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (Intl.defaultLocale == 'en') {
+                    MyAppState.setting.changeLocale!(
+                        const Locale.fromSubtags(languageCode: 'zh'));
+                  } else {
+                    MyAppState.setting.changeLocale!(
+                        const Locale.fromSubtags(languageCode: 'en'));
+                  }
+                  Future.delayed(const Duration(milliseconds: 100)).then((value) {
+                    setState(() {});
+                  });
+                },
+                child: const Text('中英文转换'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const FeedbackDialog();
+                      });
+                },
+                child: const Text('反馈'),
               ),
             ],
           ),

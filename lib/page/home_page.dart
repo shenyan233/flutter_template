@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_template/page/components/responsive.dart';
+import '../custom_widget/feedback_dialog.dart';
 import '../generated/l10n.dart';
 import '../routes.dart';
 
@@ -18,7 +20,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    print('didUpdateWidget in HomePage');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void reassemble() {
+    print('reassemble in HomePage');
+    super.reassemble();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('didChangeDependencies in HomePage');
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('build HomePage');
+    if (PlatformUtils.isWeb) {
+      SystemChrome.setApplicationSwitcherDescription(
+          ApplicationSwitcherDescription(
+        label: S.current.appName,
+      ));
+    }
     return Scaffold(
       body: Center(
         child: Column(
@@ -44,21 +71,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ElevatedButton(
               onPressed: () {
-                delegate.pushRoute(name: '/subpage');
+                delegate.pushRoute(name: '/subpage').then((value) {
+                  setState(() {});
+                });
               },
               child: const Text('进入无参数子页面'),
             ),
             ElevatedButton(
               onPressed: () {
                 delegate.pushRoute(
-                  name: '/subpage_args',);
+                  name: '/subpage_args',
+                );
               },
               child: const Text('进入带参数子页面(no arguments)'),
             ),
             ElevatedButton(
               onPressed: () {
-                delegate.pushRoute(
-                    name: '/subpage_args', arguments: {});
+                delegate.pushRoute(name: '/subpage_args', arguments: {});
               },
               child: const Text('进入带参数子页面(empty arguments)'),
             ),
@@ -85,6 +114,16 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               child: const Text('进入带参数子页面(message, messageRequired)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const FeedbackDialog();
+                    });
+              },
+              child: const Text('反馈'),
             ),
           ],
         ),
