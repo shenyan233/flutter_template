@@ -13,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String selectedOption = '';
+
   @override
   void initState() {
     print('initState in HomePage');
@@ -124,6 +126,36 @@ class _HomePageState extends State<HomePage> {
                     });
               },
               child: const Text('反馈'),
+            ),
+            RadioListTile<String>(
+              title: Text('选项 1'),
+              value: 'Option 1',
+              groupValue: selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  selectedOption = value!;
+                });
+              },
+            ),
+            RadioListTile<String>(
+              title: Text('选项 2'),
+              value: 'Option 2',
+              groupValue: selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  selectedOption = value!;
+                });
+              },
+            ),
+            RadioListTile<String>(
+              title: Text('选项 3'),
+              value: 'Option 3',
+              groupValue: selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  selectedOption = value!;
+                });
+              },
             ),
           ],
         ),
