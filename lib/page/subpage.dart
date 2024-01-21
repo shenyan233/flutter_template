@@ -27,13 +27,17 @@ class _SubpageState extends State<Subpage> {
     if (PlatformUtils.isWeb) {
       SystemChrome.setApplicationSwitcherDescription(
           ApplicationSwitcherDescription(
-        label: '${S.current.appName} - subpage',
+        label: 'subpage - ${S.current.appName}',
       ));
     }
     return Seo.head(
       tags: const [
         MetaTag(name: 'description', content: 'Flutter SEO Example'),
-        LinkTag(rel: 'canonical', href: 'http://www.example.com'),
+        LinkTag(rel: 'canonical', href: 'https://www.example.com'),
+        LinkTag(
+            rel: 'alternate',
+            hreflang: "zh",
+            href: 'https://www.example.com'),
       ],
       child: Scaffold(
         body: Center(
