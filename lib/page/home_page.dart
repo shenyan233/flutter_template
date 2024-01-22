@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/page/components/responsive.dart';
-import '../custom_widget/feedback_dialog.dart';
+import '../widget/feedback_dialog.dart';
 import '../generated/l10n.dart';
 import '../routes.dart';
 

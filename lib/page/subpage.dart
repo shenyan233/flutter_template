@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seo/seo.dart';
 import 'package:intl/intl.dart';
-import '../custom_widget/feedback_dialog.dart';
+import '../widget/feedback_dialog.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
 import 'components/responsive.dart';
