@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:seo/seo.dart';
 
-class AppText extends StatelessWidget {
+class SeoText extends StatelessWidget {
   final String text;
   final TextTagStyle? tagStyle;
 
   final TextStyle? style;
 
-  const AppText(this.text, {
+  const SeoText(this.text, {
     super.key,
     this.tagStyle,
     this.style,
