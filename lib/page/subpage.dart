@@ -35,8 +35,10 @@ class _SubpageState extends State<Subpage> {
         MetaTag(name: 'description', content: 'Flutter SEO Example'),
         LinkTag(rel: 'canonical', href: 'https://www.example.com'),
         LinkTag(
+            rel: 'alternate', hreflang: "zh", href: 'https://www.example.com'),
+        LinkTag(
             rel: 'alternate',
-            hreflang: "zh",
+            hreflang: "x-default",
             href: 'https://www.example.com'),
       ],
       child: Scaffold(
@@ -68,7 +70,8 @@ class _SubpageState extends State<Subpage> {
                     MyAppState.setting.changeLocale!(
                         const Locale.fromSubtags(languageCode: 'en'));
                   }
-                  Future.delayed(const Duration(milliseconds: 100)).then((value) {
+                  Future.delayed(const Duration(milliseconds: 100))
+                      .then((value) {
                     setState(() {});
                   });
                 },
