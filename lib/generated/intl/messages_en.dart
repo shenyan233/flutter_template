@@ -23,12 +23,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("Template"),
-        "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
-        "fail": MessageLookupByLibrary.simpleMessage("fail"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "inputFeedback":
             MessageLookupByLibrary.simpleMessage("Please input your feedback"),
-        "ok": MessageLookupByLibrary.simpleMessage("ok"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "thanksFeedback":
             MessageLookupByLibrary.simpleMessage("Thank you for your feedback!")

@@ -24,10 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("模板"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
+        "confirm": MessageLookupByLibrary.simpleMessage("确认"),
         "fail": MessageLookupByLibrary.simpleMessage("失败"),
         "feedback": MessageLookupByLibrary.simpleMessage("反馈"),
         "inputFeedback": MessageLookupByLibrary.simpleMessage("请输入建议"),
-        "ok": MessageLookupByLibrary.simpleMessage("确定"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "thanksFeedback": MessageLookupByLibrary.simpleMessage("谢谢您的反馈！")
       };

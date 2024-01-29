@@ -52,7 +52,7 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
                 );
               }
             },
-            child: Text(S.of(context).ok)),
+            child: Text(S.of(context).confirm)),
       ],
     );
   }

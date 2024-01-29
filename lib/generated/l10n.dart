@@ -90,21 +90,21 @@ class S {
     );
   }
 
-  /// `cancel`
+  /// `Cancel`
   String get cancel {
     return Intl.message(
-      'cancel',
+      'Cancel',
       name: 'cancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `ok`
-  String get ok {
+  /// `Confirm`
+  String get confirm {
     return Intl.message(
-      'ok',
-      name: 'ok',
+      'Confirm',
+      name: 'confirm',
       desc: '',
       args: [],
     );
@@ -120,10 +120,10 @@ class S {
     );
   }
 
-  /// `fail`
+  /// `Fail`
   String get fail {
     return Intl.message(
-      'fail',
+      'Fail',
       name: 'fail',
       desc: '',
       args: [],

@@ -3,8 +3,8 @@
   "feedback" : "Feedback",
   "inputFeedback": "Please input your feedback",
   "thanksFeedback" : "Thank you for your feedback!",
-  "cancel": "cancel",
-  "ok": "ok",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
   "success": "Success",
-  "fail": "fail"
+  "fail": "Fail"
 }
