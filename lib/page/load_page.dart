@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../model/database.dart';
-import '../model/sputils.dart';
-import '../state.dart';
 import 'components/check_args.dart';
 import 'components/responsive.dart';
 
@@ -32,8 +29,6 @@ class _LoadPageState extends State<LoadPage> {
   }
 
   Future<void> initApp(context) async {
-    // SharedPreferences的初始化
-    await SPUtils.init();
     // 初始化数据库
     if (PlatformUtils.isAndroid ||
         PlatformUtils.isIOS ||
@@ -41,12 +36,6 @@ class _LoadPageState extends State<LoadPage> {
       await DatabaseOperate.init();
     }
     // 初始化服务器
-    //初始化登陆状态
-    LoginStatus loginStatus = Provider.of<LoginStatus>(context, listen: false);
-    loginStatus.isLogin = SPUtils.spf.getString('username') == null ||
-            SPUtils.spf.getString('username')!.isEmpty
-        ? false
-        : true;
     // 初始化更新
     // await initUpdate();
     checkDelay();
@@ -64,10 +53,8 @@ class _LoadPageState extends State<LoadPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 

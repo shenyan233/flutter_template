@@ -100,13 +100,13 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     pushRoute(name: name, arguments: arguments);
   }
 
-  AsyncWidgetBuilder _builder(func) {
+  AsyncWidgetBuilder _builder(page) {
     return (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
-        return func();
+        return page;
       }
       return const LoadPage();
     };
@@ -128,26 +128,26 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
       case '/home':
         child = FutureBuilder(
           future: afterInit(home_page.loadLibrary()),
-          builder: _builder(() => home_page.HomePage()),
+          builder: _builder(home_page.HomePage()),
         );
         break;
       case '/subpage':
         child = FutureBuilder(
           future: afterInit(subpage.loadLibrary()),
-          builder: _builder(() => subpage.Subpage()),
+          builder: _builder(subpage.Subpage()),
         );
         break;
       case '/subpage_args':
         child = FutureBuilder(
           future: afterInit(subpage_args.loadLibrary()),
-          builder: _builder(() =>
+          builder: _builder(
               subpage_args.SubpageArgs(args: routeSettings.arguments as Map?)),
         );
         break;
       default:
         child = FutureBuilder(
           future: afterInit(error_page.loadLibrary()),
-          builder: _builder(() => error_page.ErrorPage()),
+          builder: _builder(error_page.ErrorPage()),
         );
     }
 

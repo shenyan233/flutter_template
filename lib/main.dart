@@ -11,9 +11,24 @@ import 'package:seo/seo.dart';
 import 'dart:js';
 import 'package:intl/intl.dart';
 
-void main() {
+import 'model/sputils.dart';
+
+Future<void> main() async {
   usePathUrlStrategy();
-  runApp(MyApp());
+  // SharedPreferences的初始化
+  await SPUtils.init();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+            value: LoginStatus(SPUtils.spf.getString('username') == null ||
+                    SPUtils.spf.getString('username')!.isEmpty
+                ? false
+                : true)),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -48,32 +63,27 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // 进行打开app必须的初始化，其他的非必须初始化尽量放在initPage
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: LoginStatus(false)),
-      ],
-      child: SeoController(
-        enabled: true,
-        tree: WidgetTree(context: context),
-        child: MaterialApp.router(
-          //初始化的时候加载的路由
-          routerDelegate: delegate,
-          routeInformationParser: const MyRouteInformationParser(),
-          locale: setting.locale,
-          // 设置中文为首选项
-          supportedLocales: [
-            const Locale('zh', ''),
-            ...S.delegate.supportedLocales
-          ],
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          ),
+    return SeoController(
+      enabled: !context.watch<LoginStatus>().isLogin,
+      tree: WidgetTree(context: context),
+      child: MaterialApp.router(
+        //初始化的时候加载的路由
+        routerDelegate: delegate,
+        routeInformationParser: const MyRouteInformationParser(),
+        locale: setting.locale,
+        // 设置中文为首选项
+        supportedLocales: [
+          const Locale('zh', ''),
+          ...S.delegate.supportedLocales
+        ],
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
       ),
     );
