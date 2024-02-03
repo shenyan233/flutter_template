@@ -10,8 +10,8 @@
 // delegate.push(name: '/init',arguments: arguments);
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'app_setting.dart';
 import 'generated/l10n.dart';
-import 'main.dart';
 import 'page/error_page.dart' deferred as error_page;
 import 'package:flutter_template/page/home_page.dart' deferred as home_page;
 import 'package:flutter_template/page/subpage.dart' deferred as subpage;
@@ -192,19 +192,15 @@ class MyRouteInformationParser
       return Future.value([const RouteSettings(name: '/home')]);
     }
 
-    final routeSettings =
-        uri.toString().split('/').sublist(1).map((pathSegment) {
-      List<Locale> result = S.delegate.supportedLocales
-          .where((element) => element.languageCode == pathSegment)
-          .toList();
-      if (result.isNotEmpty) {
+    final routeSettings = uri.toString().split('/').sublist(1).map((element) {
+      Locale locale = Locale.fromSubtags(languageCode: element);
+      if (S.delegate.supportedLocales.contains(locale)) {
         Future(() {
-          MyAppState.setting.changeLocale!(
-              Locale.fromSubtags(languageCode: result[0].languageCode));
+          AppSetting.changeLocale!(locale);
         });
-        pathSegment = 'home';
+        element = 'home';
       }
-      Uri uri = Uri.parse(pathSegment);
+      Uri uri = Uri.parse(element);
       return RouteSettings(
         name: '/${uri.pathSegments[0]}',
         arguments: uri.queryParameters.isEmpty

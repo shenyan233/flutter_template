@@ -42,12 +42,10 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  static AppSetting setting = AppSetting();
-
   @override
   void initState() {
     super.initState();
-    setting.changeLocale = (Locale locale) {
+    AppSetting.changeLocale = (Locale locale) {
       setState(() {
         if (PlatformUtils.isWeb) {
           String curUrl = context['location']['href'];
@@ -55,7 +53,7 @@ class MyAppState extends State<MyApp> {
           context.callMethod(
               'eval', ["window.history.pushState(null, '', '$curUrl');"]);
         }
-        setting.locale = locale;
+        AppSetting.locale = locale;
       });
     };
   }
@@ -70,7 +68,7 @@ class MyAppState extends State<MyApp> {
         //初始化的时候加载的路由
         routerDelegate: delegate,
         routeInformationParser: const MyRouteInformationParser(),
-        locale: setting.locale,
+        locale: AppSetting.locale,
         // 设置中文为首选项
         supportedLocales: [
           const Locale('zh', ''),
