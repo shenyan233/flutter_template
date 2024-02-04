@@ -60,6 +60,66 @@ class S {
     );
   }
 
+  /// `Can't find this Page.`
+  String get errorPage {
+    return Intl.message(
+      'Can\'t find this Page.',
+      name: 'errorPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please input information`
+  String get inputInfo {
+    return Intl.message(
+      'Please input information',
+      name: 'inputInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fail`
+  String get fail {
+    return Intl.message(
+      'Fail',
+      name: 'fail',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Feedback`
   String get feedback {
     return Intl.message(
@@ -85,46 +145,6 @@ class S {
     return Intl.message(
       'Thank you for your feedback!',
       name: 'thanksFeedback',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cancel`
-  String get cancel {
-    return Intl.message(
-      'Cancel',
-      name: 'cancel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm`
-  String get confirm {
-    return Intl.message(
-      'Confirm',
-      name: 'confirm',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Success`
-  String get success {
-    return Intl.message(
-      'Success',
-      name: 'success',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Fail`
-  String get fail {
-    return Intl.message(
-      'Fail',
-      name: 'fail',
       desc: '',
       args: [],
     );

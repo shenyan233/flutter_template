@@ -1,10 +1,12 @@
 {
   "appName" : "Template",
+  "errorPage": "Can't find this Page.",
+  "inputInfo" : "Please input information",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "success": "Success",
+  "fail": "Fail",
   "feedback" : "Feedback",
   "inputFeedback": "Please input your feedback",
-  "thanksFeedback" : "Thank you for your feedback!",
-  "cancel": "Cancel",
-  "confirm": "Confirm",
-  "success": "Success",
-  "fail": "Fail"
+  "thanksFeedback" : "Thank you for your feedback!"
 }

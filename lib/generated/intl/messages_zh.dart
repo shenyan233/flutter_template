@@ -25,9 +25,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("模板"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "confirm": MessageLookupByLibrary.simpleMessage("确认"),
+        "errorPage": MessageLookupByLibrary.simpleMessage("找不到页面"),
         "fail": MessageLookupByLibrary.simpleMessage("失败"),
         "feedback": MessageLookupByLibrary.simpleMessage("反馈"),
         "inputFeedback": MessageLookupByLibrary.simpleMessage("请输入建议"),
+        "inputInfo": MessageLookupByLibrary.simpleMessage("请输入信息"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "thanksFeedback": MessageLookupByLibrary.simpleMessage("谢谢您的反馈！")
       };

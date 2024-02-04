@@ -25,10 +25,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Template"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "errorPage":
+            MessageLookupByLibrary.simpleMessage("Can\'t find this Page."),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "inputFeedback":
             MessageLookupByLibrary.simpleMessage("Please input your feedback"),
+        "inputInfo":
+            MessageLookupByLibrary.simpleMessage("Please input information"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "thanksFeedback":
             MessageLookupByLibrary.simpleMessage("Thank you for your feedback!")

@@ -1,10 +1,12 @@
 {
   "appName" : "模板",
+  "errorPage": "找不到页面",
+  "inputInfo" : "请输入信息",
+  "confirm": "确认",
+  "cancel": "取消",
+  "success": "成功",
+  "fail": "失败",
   "feedback" : "反馈",
   "inputFeedback": "请输入建议",
-  "thanksFeedback" : "谢谢您的反馈！",
-  "cancel": "取消",
-  "confirm": "确认",
-  "success": "成功",
-  "fail": "失败"
+  "thanksFeedback" : "谢谢您的反馈！"
 }
