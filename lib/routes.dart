@@ -193,6 +193,8 @@ class MyRouteInformationParser
     }
 
     final routeSettings = uri.toString().split('/').sublist(1).map((element) {
+      // 如果采用将固定参数作为替换，如replaceArg，则会导致页面内改变不会修改到
+      // RouteSettings中，进入下一层页面后会导致修改的内容不会映射到URL中
       Locale locale = Locale.fromSubtags(languageCode: element);
       if (S.delegate.supportedLocales.contains(locale)) {
         Future(() {
