@@ -171,9 +171,13 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
 
   @override
   Future<void> setNewRoutePath(List<RouteSettings> configuration) {
-    _setPath(configuration
-        .map((routeSettings) => _createPage(routeSettings))
-        .toList());
+    if (configuration.length == _pages.length && _pages.length != 1){
+      popRoute();
+    }else{
+      _setPath(configuration
+          .map((routeSettings) => _createPage(routeSettings))
+          .toList());
+    }
     return Future.value(null);
   }
 }
@@ -193,8 +197,17 @@ class MyRouteInformationParser
     }
 
     final routeSettings = uri.toString().split('/').sublist(1).map((element) {
-      // 如果采用将固定参数作为替换，如replaceArg，则会导致页面内改变不会修改到
-      // RouteSettings中，进入下一层页面后会导致修改的内容不会映射到URL中
+      // 网址中的参数输入app中有三种方案：一、输入全局变量；二、作为Widget参数输入控制Widget；
+      // 三、作为Widget参数输入并更新state，该方案和全局变量类似，还必须通过context调用，
+      // 好处在于可以实现局部更新。
+      // 其实这三种结果都差不多，决定方案的关键在于如何从app中映射回url。
+      //
+      // app中的页内参数输入url中时，需要在改变参数时利用js实时修改url。对于以上三种参数存在的
+      // 方式，但需要在页面内修改参数并输入到url时，仅通过全局变量可以实现在点击后退键重新生成
+      // 地址时可以实现最新的url信息。
+
+      // 其实，不论什么方案，页面内状态改变进而影响url的方式都是很麻烦的，因此，最好改变url状态时
+      // 直接通过路由进入新页面。
       Locale locale = Locale.fromSubtags(languageCode: element);
       if (S.delegate.supportedLocales.contains(locale)) {
         Future(() {
