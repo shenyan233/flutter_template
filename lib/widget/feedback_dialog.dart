@@ -5,7 +5,7 @@ import '../generated/l10n.dart';
 import '../model/entity.dart';
 
 class FeedbackDialog extends StatefulWidget {
-  const FeedbackDialog({Key? key}) : super(key: key);
+  const FeedbackDialog({super.key});
 
   @override
   State<FeedbackDialog> createState() => _FeedbackDialogState();

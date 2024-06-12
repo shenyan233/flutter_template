@@ -8,7 +8,7 @@ import '../generated/l10n.dart';
 import 'components/responsive.dart';
 
 class Subpage extends StatefulWidget {
-  const Subpage({Key? key}) : super(key: key);
+  const Subpage({super.key});
 
   @override
   State<Subpage> createState() => _SubpageState();

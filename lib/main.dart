@@ -8,7 +8,7 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:seo/seo.dart';
-import 'dart:js';
+import 'package:web/web.dart';
 import 'package:intl/intl.dart';
 
 import 'model/sputils.dart';
@@ -50,10 +50,9 @@ class MyAppState extends State<MyApp> {
     AppSetting.changeLocale = (Locale locale) {
       setState(() {
         if (PlatformUtils.isWeb) {
-          String curUrl = context['location']['href'];
+          String curUrl = window.location.href;
           curUrl = curUrl.replaceAll(Intl.defaultLocale!, locale.languageCode);
-          context.callMethod(
-              'eval', ["window.history.pushState(null, '', '$curUrl');"]);
+          window.history.pushState(null, '', curUrl);
         }
         this.locale = locale;
       });

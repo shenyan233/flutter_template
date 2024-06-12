@@ -8,7 +8,7 @@ class SubpageArgs extends StatefulWidget with CheckArgs {
   late final String messageRequired;
   late final String message;
 
-  SubpageArgs({Key? key, Map? args}) : super(key: key) {
+  SubpageArgs({super.key, Map? args}) {
     // TODO: implement args transfer
     args = checkArgs(args);
     messageRequired = args['urlRequest'].containsKey('messageRequired')

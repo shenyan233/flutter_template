@@ -4,7 +4,7 @@ import 'components/check_args.dart';
 import 'components/responsive.dart';
 
 class LoadPage extends StatefulWidget {
-  const LoadPage({Key? key}) : super(key: key);
+  const LoadPage({super.key});
 
   @override
   State<LoadPage> createState() => _LoadPageState();

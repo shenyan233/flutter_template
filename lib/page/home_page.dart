@@ -7,7 +7,7 @@ import '../generated/l10n.dart';
 import '../routes.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('反馈'),
                 ),
                 RadioListTile<String>(
-                  title: Text('选项 1'),
+                  title: const Text('选项 1'),
                   value: 'Option 1',
                   groupValue: selectedOption,
                   onChanged: (value) {
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 RadioListTile<String>(
-                  title: Text('选项 2'),
+                  title: const Text('选项 2'),
                   value: 'Option 2',
                   groupValue: selectedOption,
                   onChanged: (value) {
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 RadioListTile<String>(
-                  title: Text('选项 3'),
+                  title: const Text('选项 3'),
                   value: 'Option 3',
                   groupValue: selectedOption,
                   onChanged: (value) {
