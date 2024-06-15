@@ -23,7 +23,7 @@ By provider.
 In 'lib/routes.dart'. Just need to modify The function _createPage().
 
 ### main.dart.js Chunking of Web
-On Web, it is not necessary to retrieve all the content from the server before it can be displayed. 
+On Web, it is not necessary to retrieve all the content from the server before it can be displayed.
 By deferred loading in 'lib/routes.dart'.
 
 ### Localization
@@ -46,3 +46,13 @@ Display alert dialog and tips toast.
 ### SEO for Web
 
 By dependencies: seo:.
+
+## Note
+### dev
+delete meta description in web/index.html
+for single lang webpage, add lang attribute in web/index.html (from W3C check)
+delete valid ’-‘ and ’/‘ in web/index.html (from W3C check)
+### deploy
+add ads.txt
+add robots.txt
+add sitemap.xml
