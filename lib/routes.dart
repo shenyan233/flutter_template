@@ -23,7 +23,7 @@ import 'package:intl/intl.dart';
 
 MyRouterDelegate delegate = MyRouterDelegate();
 
-class CustomPage<T> extends MaterialPage<T> {
+class CustomPage extends MaterialPage {
   final Completer completerResult = Completer();
 
   CustomPage({
@@ -52,7 +52,7 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     return Navigator(
       key: navigatorKey,
       pages: List.of(_pages),
-      onPopPage: _onPopPage,
+      onDidRemovePage: _onPopPage,
     );
   }
 
@@ -60,16 +60,11 @@ class MyRouterDelegate extends RouterDelegate<List<RouteSettings>>
     return _pages.length > 1;
   }
 
-  bool _onPopPage(Route route, dynamic result) {
-    if (!route.didPop(result)) return false;
-
-    if (canPop()) {
-      CustomPage page = _pages.removeLast();
+  void _onPopPage(Page page) {
+    if (_pages.contains(page)) {
+      _pages.remove(page);
       notifyListeners();
-      page.completerResult.complete();
-      return true;
-    } else {
-      return false;
+      (page as CustomPage).completerResult.complete();
     }
   }
 
